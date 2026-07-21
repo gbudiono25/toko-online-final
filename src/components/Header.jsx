@@ -1,6 +1,9 @@
 import MaterialIcon from './MaterialIcon'
+import { useCart } from '../context/CartContext'
 
 export default function Header() {
+  const { totalQty } = useCart()
+
   return (
     <header className="bg-surface w-full top-0 sticky z-50 border-b border-outline-variant shadow-sm h-20 flex items-center transition-all duration-300">
       <nav className="flex justify-between items-center px-gutter max-w-container-max mx-auto w-full gap-md">
@@ -46,9 +49,11 @@ export default function Header() {
           </button>
           <button className="p-xs text-on-surface-variant hover:text-secondary transition-colors relative">
             <MaterialIcon name="shopping_cart" />
-            <span className="absolute top-0 right-0 bg-secondary text-on-secondary text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
-              3
-            </span>
+            {totalQty > 0 && (
+              <span className="absolute top-0 right-0 bg-secondary text-on-secondary text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                {totalQty}
+              </span>
+            )}
           </button>
           <button className="p-xs text-on-surface-variant hover:text-secondary transition-colors">
             <MaterialIcon name="account_circle" />

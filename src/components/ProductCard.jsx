@@ -1,13 +1,21 @@
 import MaterialIcon from './MaterialIcon'
 import StarRating from './StarRating'
+import { useCart } from '../context/CartContext'
 
 export default function ProductCard({ product }) {
+  const { addToCart } = useCart()
   const { name, category, rating, reviewCount, price, oldPrice, badge, image, alt } = product
 
   const badgeClass =
     badge?.type === 'error'
       ? 'bg-error text-on-error'
       : 'bg-secondary text-on-secondary'
+
+  const handleAddToCart = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    addToCart(product)
+  }
 
   return (
     <div className="bg-white border border-outline-variant rounded-xl overflow-hidden group hover:shadow-lg transition-all duration-300 flex flex-col h-full">
@@ -38,7 +46,11 @@ export default function ProductCard({ product }) {
             {oldPrice && <span className="text-outline-variant text-[12px] line-through">{oldPrice}</span>}
             <span className="text-primary font-bold text-lg">{price}</span>
           </div>
-          <button className="w-full border border-primary text-primary py-xs rounded-lg font-label-md hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-xs active:scale-95">
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className="relative z-10 w-full border border-primary text-primary py-xs rounded-lg font-label-md hover:bg-primary hover:text-on-primary transition-all flex items-center justify-center gap-xs active:scale-95"
+          >
             <MaterialIcon name="add_shopping_cart" className="text-[18px]" />
             Tambah
           </button>
