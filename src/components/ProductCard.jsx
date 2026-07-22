@@ -1,21 +1,31 @@
-import MaterialIcon from './MaterialIcon'
-import StarRating from './StarRating'
-import { useCart } from '../context/CartContext'
+import MaterialIcon from "./MaterialIcon";
+import StarRating from "./StarRating";
+import { useCart } from "../context/CartContext";
 
 export default function ProductCard({ product }) {
-  const { addToCart } = useCart()
-  const { name, category, rating, reviewCount, price, oldPrice, badge, image, alt } = product
+  const { addToCart } = useCart();
+  const {
+    name,
+    category,
+    rating,
+    reviewCount,
+    price,
+    oldPrice,
+    badge,
+    image,
+    alt,
+  } = product;
 
   const badgeClass =
-    badge?.type === 'error'
-      ? 'bg-error text-on-error'
-      : 'bg-secondary text-on-secondary'
+    badge?.type === "error"
+      ? "bg-error text-on-error"
+      : "bg-secondary text-on-secondary";
 
   const handleAddToCart = (event) => {
-    event.preventDefault()
-    event.stopPropagation()
-    addToCart(product)
-  }
+    event.preventDefault();
+    event.stopPropagation();
+    addToCart(product);
+  };
 
   return (
     <div className="bg-white border border-outline-variant rounded-xl overflow-hidden group hover:shadow-lg transition-all duration-300 flex flex-col h-full">
@@ -26,7 +36,9 @@ export default function ProductCard({ product }) {
           alt={alt}
         />
         {badge && (
-          <div className={`absolute top-2 right-2 ${badgeClass} text-[10px] px-2 py-1 rounded-full font-bold`}>
+          <div
+            className={`absolute top-2 right-2 ${badgeClass} text-[10px] px-2 py-1 rounded-full font-bold`}
+          >
             {badge.text}
           </div>
         )}
@@ -43,7 +55,11 @@ export default function ProductCard({ product }) {
         <StarRating rating={rating} reviewCount={reviewCount} />
         <div className="mt-auto">
           <div className="flex flex-col mb-sm">
-            {oldPrice && <span className="text-outline-variant text-[12px] line-through">{oldPrice}</span>}
+            {oldPrice && (
+              <span className="text-outline-variant text-[12px] line-through">
+                {oldPrice}
+              </span>
+            )}
             <span className="text-primary font-bold text-lg">{price}</span>
           </div>
           <button
@@ -57,5 +73,5 @@ export default function ProductCard({ product }) {
         </div>
       </div>
     </div>
-  )
+  );
 }
