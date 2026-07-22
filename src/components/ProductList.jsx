@@ -1,9 +1,64 @@
-import MaterialIcon from './MaterialIcon'
-import ProductCard from './ProductCard'
-import FilterSidebar from './FilterSidebar'
-import { products } from '../data'
+import { useEffect, useState } from "react";
+import MaterialIcon from "./MaterialIcon";
+import ProductCard from "./ProductCard";
+import FilterSidebar from "./FilterSidebar";
+import { fetchProducts } from "../services/products";
 
 export default function ProductList() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function loadProducts() {
+      try {
+        const data = await fetchProducts();
+        const normalized = data.map((product) => ({
+          id: product.id,
+          name: product.name,
+          category: product.category,
+          rating: product.rating,
+          reviewCount: product.review_count,
+          price: `Rp ${product.price.toLocaleString("id-ID")}`,
+          oldPrice: product.old_price
+            ? `Rp ${product.old_price.toLocaleString("id-ID")}`
+            : null,
+          badge: product.badge_text
+            ? {
+                text: product.badge_text,
+                type: product.badge_type || "secondary",
+              }
+            : null,
+          image: product.image_url,
+          alt: product.alt_text,
+        }));
+        setProducts(normalized);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <p className="px-gutter max-w-container-max mx-auto mt-xl text-on-surface-variant">
+        Memuat produk...
+      </p>
+    );
+  }
+
+  if (error) {
+    return (
+      <p className="px-gutter max-w-container-max mx-auto mt-xl text-error">
+        Gagal memuat produk: {error}
+      </p>
+    );
+  }
+
   return (
     <section className="px-gutter max-w-container-max mx-auto mt-xl">
       <div className="flex flex-col md:flex-row gap-lg">
@@ -12,10 +67,14 @@ export default function ProductList() {
         <div className="flex-1">
           <div className="flex justify-between items-center mb-md">
             <p className="text-body-sm text-on-surface-variant">
-              Menampilkan <span className="font-bold text-on-surface">24 Produk</span> Terbaik
+              Menampilkan{" "}
+              <span className="font-bold text-on-surface">24 Produk</span>{" "}
+              Terbaik
             </p>
             <div className="flex items-center gap-sm">
-              <span className="text-body-sm text-on-surface-variant">Urutkan:</span>
+              <span className="text-body-sm text-on-surface-variant">
+                Urutkan:
+              </span>
               <select className="bg-white border border-outline-variant rounded px-sm py-xs text-body-sm outline-none focus:ring-1 focus:ring-secondary">
                 <option>Terpopuler</option>
                 <option>Terbaru</option>
@@ -52,5 +111,5 @@ export default function ProductList() {
         </div>
       </div>
     </section>
-  )
+  );
 }

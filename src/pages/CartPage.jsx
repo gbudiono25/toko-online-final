@@ -51,9 +51,17 @@ export default function CartPage() {
                 className="p-md flex flex-col sm:flex-row gap-md border-b border-outline-variant items-center sm:items-start"
               >
                 <div className="w-32 h-32 flex-shrink-0 bg-surface-container-low rounded-lg overflow-hidden border border-outline-variant">
-                  <div className="w-full h-full flex items-center justify-center text-on-surface-variant text-xs">
-                    No Image
-                  </div>
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.alt || item.name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-on-surface-variant text-xs">
+                      No Image
+                    </div>
+                  )}
                 </div>
                 <div className="flex-grow space-y-xs text-center sm:text-left">
                   <div className="flex justify-between items-start">

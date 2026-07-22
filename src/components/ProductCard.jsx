@@ -24,7 +24,21 @@ export default function ProductCard({ product }) {
   const handleAddToCart = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    addToCart(product);
+
+    const normalizedProduct = {
+      id: product?.id ?? `${product?.name ?? "product"}-${product?.price ?? "0"}`,
+      name: product?.name ?? "Produk",
+      category: product?.category ?? "",
+      rating: product?.rating ?? 0,
+      reviewCount: product?.reviewCount ?? product?.review_count ?? 0,
+      price: product?.price ?? `Rp ${Number(product?.priceNumber ?? 0).toLocaleString("id-ID")}`,
+      oldPrice: product?.oldPrice ?? null,
+      badge: product?.badge ?? null,
+      image: product?.image ?? product?.image_url ?? null,
+      alt: product?.alt ?? product?.alt_text ?? product?.name ?? "Produk",
+    };
+
+    addToCart(normalizedProduct);
   };
 
   return (

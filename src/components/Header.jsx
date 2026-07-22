@@ -1,12 +1,14 @@
 import MaterialIcon from './MaterialIcon'
 import { useCart } from '../context/CartContext'
+import { useNavigate } from 'react-router-dom'
 
 export default function Header() {
   const { totalQty } = useCart()
+  const navigate = useNavigate()
 
   const handleCartClick = (event) => {
     event.preventDefault()
-    window.location.assign('/design/keranjang_belanja_checkout/code.html')
+    navigate('/cart')
   }
 
   return (

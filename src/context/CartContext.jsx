@@ -3,16 +3,16 @@ import { createContext, useContext, useState, useCallback } from "react";
 const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState([
-    { id: 999, name: "Item Awal", price: "Rp 0", qty: 3 },
-  ]);
+  const [items, setItems] = useState([]);
   const [toast, setToast] = useState(null);
 
   const addToCart = useCallback((product) => {
     const normalizedProduct = {
       ...product,
-      id:
-        product?.id ?? `${product?.name ?? "product"}-${product?.price ?? "0"}`,
+      id: product?.id ?? `${product?.name ?? "product"}-${product?.price ?? "0"}`,
+      name: product?.name ?? "Produk",
+      price: product?.price ?? "Rp 0",
+      qty: 1,
     };
 
     setItems((prev) => {
